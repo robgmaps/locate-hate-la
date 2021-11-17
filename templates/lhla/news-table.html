@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Locate Hate LA GNews Scraping{% endblock %}
+
+{% block body_class %}template-lhla-news{% endblock %}
+
+{% block css %}
+	{{ block.super }}
+
+	<!-- slider library -->
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" /> -->
+	<!-- Local -->
+	<!-- <link href="{% static 'portfolio/css/portfolio-index.css' %}" rel="stylesheet" /> -->
+{% endblock css %}
+
+{% block js %}
+	{{ block.super }}
+	<!-- slider library -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script> -->
+	<!-- Local -->
+	<!-- <script type="text/javascript" src="{% static 'portfolio/js/portfolio-index.js' %}"></script> -->
+{% endblock js %}
+
+{% block content %}
+
+<div class="container-fluid">
+	<h1>GNews Scraping Results</h1>
+
+	<div class="intro"><p><!-- Table updates every other hour at 15 minute mark.<br /> -->Source Last checked: <strong>{{ last_apicall.dt_add }}</strong></p></div>
+
+	<div>
+		<p><a class="btn btn-secondary table-refresh" href="/sites/files/lhla/gnews-results.xlsx">Download XLSX</a></p>
+	</div>
+
+	<h4>Latest Articles ({{ article_count }} total)</h4>
+
+	<div>
+		<table class="table table-striped table-bordered table-hover">
+			<thead>
+				<!-- add headers -->
+				<tr>
+					<th>Publish Date</th>
+					<th>Title / Link</th>
+					<th>Description</th>
+					<th>Image</th>
+					<th>Source</th>
+					<th>Search Term</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- add body -->
+				{% for a in articles %}
+					<tr>
+						<td>{{ a.published_at }}</td>
+						<td><a href="{{ a.url }}" target="_blank">{{ a.title }}</a></td>
+						<td>{{ a.description }}</td>
+						<td><img src="{{ a.image }}" /></td>
+						<td><a href="{{ a.source_url }}" target="_blank">{{ a.source_name }}</a></td>
+						<td>"{{ a.apicall.search_term }}"</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+</div><!-- END Container -->
+
+{% endblock content %}
